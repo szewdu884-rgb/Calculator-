@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart JS Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 280px;
+    }
+
+    .dark {
+      background: #1e1e1e;
+      color: white;
+    }
+
+    .display {
+      width: 100%;
+      height: 50px;
+      font-size: 22px;
+      text-align: right;
+      margin-bottom: 10px;
+      padding: 5px;
+      border-radius: 8px;
+      border: none;
+      background: #eee;
+    }
+
+    .dark .display {
+      background: #333;
+      color: white;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    button {
+      height: 45px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ddd;
+    }
+
+    button:hover {
+      background: #bbb;
+    }
+
+    .operator {
+      background: #ff9f1c;
+      color: white;
+    }
+
+    .equal {
+      background: #2ec4b6;
+      color: white;
+      grid-column: span 2;
+    }
+
+    .clear {
+      background: #e63946;
+      color: white;
+    }
+
+    .toggle {
+      margin-bottom: 10px;
+      width: 100%;
+      background: #555;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator" id="calc">
+  <button class="toggle" onclick="toggleMode()">🌙 Toggle Mode</button>
+  <input type="text" class="display" id="display" disabled>
+
+  <div class="buttons">
+    <button class="clear" onclick="clearDisplay()">C</button>
+    <button onclick="deleteLast()">⌫</button>
+    <button class="operator" onclick="append('/')">÷</button>
+    <button class="operator" onclick="append('*')">×</button>
+
+    <button onclick="append('7')">7</button>
+    <button onclick="append('8')">8</button>
+    <button onclick="append('9')">9</button>
+    <button class="operator" onclick="append('-')">−</button>
+
+    <button onclick="append('4')">4</button>
+    <button onclick="append('5')">5</button>
+    <button onclick="append('6')">6</button>
+    <button class="operator" onclick="append('+')">+</button>
+
+    <button onclick="append('1')">1</button>
+    <button onclick="append('2')">2</button>
+    <button onclick="append('3')">3</button>
+
+    <button onclick="append('0')">0</button>
+    <button onclick="append('.')">.</button>
+    <button class="equal" onclick="calculate()">=</button>
+  </div>
+</div>
+
+<script>
+  const display = document.getElementById("display");
+  const calc = document.getElementById("calc");
+
+  function append(value) {
+    display.value += value;
+  }
+
+  function clearDisplay() {
+    display.value = "";
+  }
+
+  function deleteLast() {
+    display.value = display.value.slice(0, -1);
+  }
+  
+  function calculate() {
+    try {
+      display.value = eval(display.value);
+    } catch {
+      display.value = "Error";
+    }
+  }
+  function toggleMode() {
+    calc.classList.toggle("dark");
+  }
+  // Keyboard support
+  document.addEventListener("keydown", (e) => {
+    if ("0123456789+-*/.".includes(e.key)) {
+      append(e.key);
+    }
+    if (e.key === "Enter") calculate();
+    if (e.key === "Backspace") deleteLast();
+    if (e.key === "Escape") clearDisplay();
+  });
+</script>
+</body>
+  </html>
